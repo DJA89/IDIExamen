@@ -28,6 +28,7 @@ void MyGLWidget::initializeGL ()
   createBuffersTerraIParet();
   ra = 1.0;
   FOV = FOV_INI =2*asin(1.0 /2.0 );
+  angleYPatrMoo = 0;
   emit zoom_changed(int(FOV*100/M_PI));
   vrp = glm::vec3(0, 1, 0);
   iniEscena();
@@ -358,6 +359,7 @@ void MyGLWidget::carregaShaders()
 void MyGLWidget::modelTransformPatricio1 ()
 {
   glm::mat4 TG(1.f);  // Matriu de transformació
+  TG = glm::rotate(TG, angleYPatrMoo, glm::vec3(0, 1.0, 0));
   TG = glm::translate(TG, glm::vec3(1.0, -0.5+0.125, 0.0));
   TG = glm::scale(TG, glm::vec3(escala, escala, escala));
   TG = glm::translate(TG, -centrePatr);
@@ -368,6 +370,7 @@ void MyGLWidget::modelTransformPatricio1 ()
 void MyGLWidget::modelTransformMoo ()
 {
   glm::mat4 TG(1.f);  // Matriu de transformació
+  TG = glm::rotate(TG, angleYPatrMoo, glm::vec3(0, 1.0, 0));
   TG = glm::translate(TG, glm::vec3(1.0, -0.75, 0.0));
   TG = glm::rotate(TG, float(-M_PI/2.0), glm::vec3(1.0, 0.0, 0.0));
   TG = glm::scale(TG, glm::vec3(escalaMoo, escalaMoo, escalaMoo));
@@ -463,6 +466,11 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event)
   switch (event->key()) {
     case Qt::Key_O: { // canvia òptica entre perspectiva i axonomètrica
       perspectiva = !perspectiva;
+      projectTransform ();
+      break;
+    }
+    case Qt::Key_R: { // canvia òptica entre perspectiva i axonomètrica
+      angleYPatrMoo = angleYPatrMoo + M_PI/6.0;
       projectTransform ();
       break;
     }
