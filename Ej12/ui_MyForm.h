@@ -16,8 +16,6 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
-#include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -32,8 +30,6 @@ public:
     MyGLWidget *widget;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer;
-    QRadioButton *radioButton;
-    QSlider *verticalSlider;
     QPushButton *pushButton;
 
     void setupUi(QWidget *MyForm)
@@ -59,18 +55,6 @@ public:
 
         verticalLayout->addItem(verticalSpacer);
 
-        radioButton = new QRadioButton(MyForm);
-        radioButton->setObjectName(QStringLiteral("radioButton"));
-
-        verticalLayout->addWidget(radioButton);
-
-        verticalSlider = new QSlider(MyForm);
-        verticalSlider->setObjectName(QStringLiteral("verticalSlider"));
-        verticalSlider->setMaximum(180);
-        verticalSlider->setOrientation(Qt::Vertical);
-
-        verticalLayout->addWidget(verticalSlider);
-
         pushButton = new QPushButton(MyForm);
         pushButton->setObjectName(QStringLiteral("pushButton"));
         QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -87,10 +71,6 @@ public:
 
         retranslateUi(MyForm);
         QObject::connect(pushButton, SIGNAL(clicked()), MyForm, SLOT(close()));
-        QObject::connect(verticalSlider, SIGNAL(valueChanged(int)), widget, SLOT(changeFOV(int)));
-        QObject::connect(widget, SIGNAL(updateFOVSlider(int)), verticalSlider, SLOT(setValue(int)));
-        QObject::connect(radioButton, SIGNAL(clicked()), widget, SLOT(changeFocus()));
-        QObject::connect(widget, SIGNAL(focusChanged()), radioButton, SLOT(toggle()));
 
         QMetaObject::connectSlotsByName(MyForm);
     } // setupUi
@@ -98,7 +78,6 @@ public:
     void retranslateUi(QWidget *MyForm)
     {
         MyForm->setWindowTitle(QApplication::translate("MyForm", "Form", 0));
-        radioButton->setText(QApplication::translate("MyForm", "Foco de escena", 0));
         pushButton->setText(QApplication::translate("MyForm", "&Sortir", 0));
     } // retranslateUi
 
